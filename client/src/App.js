@@ -1,23 +1,48 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import NavBar from './components/NavBar.js';
+import Home from './components/Home.js';
+import Signup from './components/Signup.js';
+import Login from './components/Login.js';
+import GiftList from './components/GiftList.js';
+import { UserProvider } from './Context/UserProvider.js';
+import { WishlistProvider } from './Context/WishlistProvider.js';
 import './App.css';
 
 function App() {
+  const [ allGifts, setAllGifts ] = useState([]);
+
+  useEffect(() => {
+    fetch("/gifts")
+      .then((response) => response.json())
+      .then(setAllGifts);
+  }, []);
+
+  console.log(allGifts)
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <UserProvider>
+        <NavBar />
+        <Switch>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route exact path='/signup'>
+            <Signup />
+          </Route>
+          <Route exact path='/login'>
+            <Login />
+          </Route>
+          <WishlistProvider>
+            <Route exact path='/gifts'>
+              <GiftList
+                allGifts={allGifts} />
+            </Route>
+          </WishlistProvider>
+        </Switch>
+      </UserProvider>
     </div>
   );
 }
