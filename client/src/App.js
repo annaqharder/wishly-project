@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar.js';
 import Home from './components/Home.js';
 import Signup from './components/Signup.js';
@@ -25,23 +25,16 @@ function App() {
     <div className="App">
       <UserProvider>
         <NavBar />
-        <Switch>
-          <Route exact path='/'>
-            <Home />
+        <Routes>
+          <Route path='/' element={<Home />}> </Route>
+          <Route path='/signup' element={<Signup />}></Route>
+          <Route exact path='/login' element={ <Login />}></Route>
+          <Route exact path='/gifts'
+                element={<GiftList
+                allGifts={allGifts}
+          />}>
           </Route>
-          <Route exact path='/signup'>
-            <Signup />
-          </Route>
-          <Route exact path='/login'>
-            <Login />
-          </Route>
-          <WishlistProvider>
-            <Route exact path='/gifts'>
-              <GiftList
-                allGifts={allGifts} />
-            </Route>
-          </WishlistProvider>
-        </Switch>
+        </Routes>
       </UserProvider>
     </div>
   );

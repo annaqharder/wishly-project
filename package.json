@@ -11,6 +11,6 @@
     "heroku-postbuild": "npm run clean && npm run build && npm run deploy"
   },
   "dependencies": {
-    "react-router-dom": "^5.3.3"
+    "react-router-dom": "^6.7.0"
   }
 }
