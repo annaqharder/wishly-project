@@ -11,22 +11,35 @@ function NavBar() {
     function handleLogout(){
         fetch('/logout', {
             method: "DELETE",
-        });
-        setUser(null);
-        // navigate("/")
+        }).then((r) => {
+            if (r.ok) {
+                setUser(null)
+            }
+        },[]);
+        navigate("/")
     }
 
     return (
         <div className="NavBar">
-            <div>
-                <NavLink exact to="/">
-                    Home
-                </NavLink>
-                <NavLink exact to="/">
-                    Logout
-                </NavLink>
+            <h3>
+                <span>Wishly</span> | Wishlists in One Place
+            </h3>
+            {!user ? (<div></div>) : (
+                <div>
+                    <nav>
+                    <NavLink exact to="/wishlists">
+                        My Wishlists
+                    </NavLink>
+                    <NavLink exact to="/profile">
+                        My Profile
+                    </NavLink>
+                    <NavLink exact to="/" onClick={handleLogout}>
+                        Logout
+                    </NavLink>
+                </nav>
+                <h2> Hello, {user.first_name}!</h2>
             </div>
-
+            )}
         </div>
     );
 }
